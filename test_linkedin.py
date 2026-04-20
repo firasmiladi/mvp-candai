@@ -30,18 +30,18 @@ def scrape_linkedin(keyword="python developer", location="france", limit=3):
         url = f"https://www.linkedin.com/jobs/search/?keywords={keyword}&location={location}"
         print(f"🔍 URL: {url}")
         page.goto(url)
-        page.pause() 
+        page.pause()
         page.wait_for_timeout(3000)  # Laisse LinkedIn charger les résultats
         
         # 4. Extraction
         jobs = []
-        cards = page.query_selector_all(".job-card-list__title")
+        cards = page.query_selector_all(".job-card-container")
         print(f"📦 {len(cards)} cartes détectées. Extraction des {limit} premières...")
         
         for i, card in enumerate(cards[:limit]):
             try:
-                title_el = card.query_selector(".job-card-container__title h3")
-                company_el = card.query_selector(".job-card-container__company-name")
+                title_el = card.query_selector(".job-card-list__title")
+                company_el = card.query_selector(".artdeco-entity-lockup__subtitle")
                 
                 if title_el and company_el:
                     job = {
